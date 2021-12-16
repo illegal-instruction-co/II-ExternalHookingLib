@@ -10,7 +10,7 @@ External hooking ( target internal byte patching protection )
 I wonder if there is a way to throw an external hook on processes with bypassing internal byte checks? Or am I just being silly?
 
 As you can see in the attachment below, the injected dll has the same linear address in the internal process and the target process:
-https://prnt.sc/23ahe9p
+<img src = "https://prnt.sc/23ahe9p" />
 
 Bingo!
 
