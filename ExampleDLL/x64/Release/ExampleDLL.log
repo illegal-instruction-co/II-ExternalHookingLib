@@ -1,0 +1,9 @@
+﻿  dllmain.cpp
+C:\Users\PC\source\repos\ExternalHooking\ExampleDLL\dllmain.cpp(14,13): warning C4326: 'main' öğesinin dönüş türü 'int' olmalıdır, 'void' değil
+C:\Users\PC\source\repos\ExternalHooking\ExampleDLL\dllmain.cpp(23,26): warning C4244: 'return': 'LRESULT' - 'int' dönüşümü; veri kaybı olabilir
+     C:\Users\PC\source\repos\ExternalHooking\x64\Release\ExampleDLL.lib kitaplığı ve C:\Users\PC\source\repos\ExternalHooking\x64\Release\ExampleDLL.exp nesnesi oluşturuluyor
+  Kod üretiliyor
+  Previous IPDB not found, fall back to full compilation.
+  All 4 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Kodun üretilmesi tamamlandı
+  ExampleDLL.vcxproj -> C:\Users\PC\source\repos\ExternalHooking\x64\Release\ExampleDLL.dll
