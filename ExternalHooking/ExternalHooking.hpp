@@ -16,6 +16,7 @@
 #include <Psapi.h>
 #include <vector>
 #include <functional>
+#include <thread>
 
 using namespace std;
 
@@ -67,6 +68,10 @@ namespace II {
 
 	private: 
 		Payload m_config;
+		uint64_t m_targetFunc;
+		uint64_t m_detourFunc;
+		uint64_t m_pointerFunc;
+		bool lastStep;
 
 	private: 
 
@@ -195,6 +200,56 @@ namespace II {
 			return modBaseAddr;
 		}
 
+		__forceinline bool HookC(uint64_t addr, uint64_t hookAddr) {
+
+			bool result = NotStrippedHandle([&](HANDLE pHandle, DWORD pid, char buffer[MAX_PATH]) {
+				if (pid == r_Inf.PID) {
+
+					/*
+					* The hook jmp takes 5 bytes
+					*/
+					int m_len = 5;
+
+
+					DWORD relativeAddy;
+
+					/*
+					* Just some variables needed to apply the hook
+					*/
+					BYTE jump = 0xE9;
+					BYTE NOP = 0x90;
+					BYTE NOPS[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+
+					/*
+					* Calculate the jump to the hook function
+					*/
+					relativeAddy = (hookAddr - addr) - 5;
+					/*
+					* Write the jump
+					*/
+					bool result_jump = WriteProcessMemory(pHandle, (LPVOID)addr, &jump, sizeof(jump), NULL);
+					bool result_relative = WriteProcessMemory(pHandle, (LPVOID)(addr + 0x1), &relativeAddy, sizeof(relativeAddy), NULL);
+					/*
+					* Write all of the nops at once, instead of making multiple calls
+					*/
+					int new_len = m_len - 5;
+					if (new_len > 0)
+					{
+						WriteProcessMemory(pHandle, (LPVOID)(addr + 0x5), NOPS, new_len, NULL);
+					}
+
+					std::cout << "START" << std::endl;
+					std::cout << result_jump << std::endl;
+					std::cout << result_relative << std::endl;
+					std::cout << "END" << std::endl;
+
+					return true;
+				}
+				});
+
+			return result;
+		}
+
 	public:
 		ExternalHooking(Payload config) {
 			m_config = config;
@@ -220,39 +275,29 @@ namespace II {
 			return true;
 		}
 
-		__forceinline bool Hook(uint64_t addr, uint64_t hookAddr) {
-
-			bool result = false; 
-
-			NotStrippedHandle([&](HANDLE pHandle, DWORD pid, char buffer[MAX_PATH]) {
-				if (pid == r_Inf.PID) {
-					DWORD oldProtect, Bkup, relativeAddy;
-					BYTE m_restoreBytes;
-					//The hook jmp takes 5 bytes
-					int m_len = 5;
-					//Just some variables needed to apply the hook
-					BYTE jump = 0xE9;
-					BYTE NOP = 0x90;
-					BYTE NOPS[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
-					//Put the original function bytes into m_restoreBytes for when we want to undo the hook
-					ReadProcessMemory(pHandle, (LPVOID)(addr), &m_restoreBytes, m_len, NULL);
-					//Calculate the jump to the hook function
-					relativeAddy = (hookAddr - addr) - 5;
-					//Write the jump
-					bool result1 = WriteProcessMemory(pHandle, (LPVOID)addr, &jump, sizeof(jump), NULL);
-					bool result2 = WriteProcessMemory(pHandle, (LPVOID)(addr + 0x1), &relativeAddy, sizeof(relativeAddy), NULL);
-					//Write all of the nops at once, instead of making multiple calls
-					int new_len = m_len - 5;
-					if (new_len > 0)
-					{
-						WriteProcessMemory(pHandle, (LPVOID)(addr + 0x5), NOPS, new_len, NULL);
-					}
-					return result1 | result2;
-				}
-			});
-
-			return result;
+		__forceinline ExternalHooking * Target(uint64_t func) {
+			m_targetFunc = func;
+			lastStep = true;
+			return this;
 		}
+
+		__forceinline ExternalHooking * Detour(uint64_t func) {
+			m_detourFunc = func;
+			lastStep = true;
+			return this;
+		}
+
+		__forceinline ExternalHooking * Pointer(uint64_t func) {
+			m_pointerFunc = func;
+			lastStep = HookC(m_pointerFunc, m_targetFunc);
+			return this;
+		}
+
+		__forceinline bool Hook() {
+			if(lastStep) this->HookC(m_targetFunc, m_detourFunc);
+			return false;
+		}
+
 
 	};
 

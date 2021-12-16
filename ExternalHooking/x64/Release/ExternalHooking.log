@@ -1,13 +1,11 @@
 ﻿  ExternalHooking.cpp
-C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(132,1): warning C4311: 'tür dönüştürme': işaretçi kesilmesi: 'LPOVERLAPPED' - 'DWORD'
-C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(132,1): warning C4302: 'tür dönüştürme': 'LPOVERLAPPED' iken 'DWORD' olarak kesildi
-C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(134,1): warning C4311: 'tür dönüştürme': işaretçi kesilmesi: 'LPOVERLAPPED' - 'DWORD'
-C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(134,1): warning C4302: 'tür dönüştürme': 'LPOVERLAPPED' iken 'DWORD' olarak kesildi
-C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(240,39): warning C4244: '=': 'uint64_t' - 'DWORD' dönüşümü; veri kaybı olabilir
-C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(229,24): warning C4101: 'Bkup': yerel değişken başvurusu kaldırıldı
-C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(229,12): warning C4101: 'oldProtect': yerel değişken başvurusu kaldırıldı
+C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(137,1): warning C4311: 'tür dönüştürme': işaretçi kesilmesi: 'LPOVERLAPPED' - 'DWORD'
+C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(137,1): warning C4302: 'tür dönüştürme': 'LPOVERLAPPED' iken 'DWORD' olarak kesildi
+C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(139,1): warning C4311: 'tür dönüştürme': işaretçi kesilmesi: 'LPOVERLAPPED' - 'DWORD'
+C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(139,1): warning C4302: 'tür dönüştürme': 'LPOVERLAPPED' iken 'DWORD' olarak kesildi
+C:\Users\PC\source\repos\ExternalHooking\ExternalHooking\ExternalHooking.hpp(226,39): warning C4244: '=': 'uint64_t' - 'DWORD' dönüşümü; veri kaybı olabilir
   Kod üretiliyor
-  1 of 211 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+  7 of 216 functions ( 3.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Kodun üretilmesi tamamlandı

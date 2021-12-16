@@ -12,22 +12,45 @@
 #include <iostream>
 
 void main() {
-    MessageBoxExA(NULL, "MAIN", NULL, MB_OK | MB_ICONERROR | MB_APPLMODAL | MB_SETFOREGROUND | MB_TOPMOST, 0);
+    MessageBoxExA(NULL, "Injected", NULL, MB_OK | MB_ICONERROR | MB_APPLMODAL | MB_SETFOREGROUND | MB_TOPMOST, 0);
 
-    Sleep(500);
-    MessageBoxA(NULL, "TEST", "Msg title", MB_OK | MB_ICONQUESTION);
+    /*
+    * MessageBox a will be hooked!
+    */
+    MessageBoxA(NULL, "IF I HOOK HERE, THIS TEXT WILL BE REPLACED WITH ONLY \\MBK\\", "Msg title", MB_OK | MB_ICONQUESTION);
 }
 
-// Exporting function usable with SetWindowsHookEx
+/*
+* Exporting function usable with SetWindowsHookEx
+*/
 extern "C" __declspec(dllexport) int NextHook(int code, WPARAM wParam, LPARAM lParam) {
     return CallNextHookEx(NULL, code, wParam, lParam);
 }
 
-// Exporting hook function
-extern "C" __declspec(dllexport) INT WINAPI HookedMessageBox(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
+/*
+* Exporting pointer
+*/
+/*
+* Exporting detour function
+*/
+extern "C" __declspec(dllexport) INT WINAPI MessageBoxA_ptr(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
-    MessageBoxExW(NULL, L"I HOOKED YOU BITCH", NULL, MB_OK | MB_ICONERROR | MB_APPLMODAL | MB_SETFOREGROUND | MB_TOPMOST, 0);
+   /*
+   * this babe will be a pointer
+   * when she grows up
+   */
+    MessageBoxExA(NULL, "POINTER ISNT AN ADULT ?", NULL, MB_OK | MB_ICONERROR | MB_APPLMODAL | MB_SETFOREGROUND | MB_TOPMOST, 0);
     return 0;
+}
+
+/*
+* Exporting detour function
+*/
+extern "C" __declspec(dllexport) INT WINAPI MessageBoxA_dtr(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
+{
+   MessageBoxExA(NULL, "HOOKED ?", NULL, MB_OK | MB_ICONERROR | MB_APPLMODAL | MB_SETFOREGROUND | MB_TOPMOST, 0);
+   lpText = L"MBK";
+   return MessageBoxA_ptr(hWnd, lpText, lpCaption, uType);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule,
