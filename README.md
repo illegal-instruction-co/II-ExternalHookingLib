@@ -3,7 +3,7 @@
 
 Preface:
 
-Yes, friends, as I mentioned below, I had a problem while doing research on SetWindowsHookExW today.
+As I mentioned in my old post, I had a problem while doing research on SetWindowsHookExW today.
 
 External hooking ( target internal byte patching protection )
 
