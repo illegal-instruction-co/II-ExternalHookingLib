@@ -1,5 +1,5 @@
 # II-ExternalHookingLib
- External Hooking ( Bypasss process byte patching checks | Injector included )
+ External Hooking ( Bypass process byte patching checks | injector included )
 
 I wonder if there is a way to throw an external hook on processes without triggering page count checks? Or am I just being silly?
 
